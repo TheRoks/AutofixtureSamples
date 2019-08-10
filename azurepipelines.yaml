@@ -1,0 +1,45 @@
+pool:
+  name: Hosted Windows 2019 with VS2019
+  demands:
+  - msbuild
+  - visualstudio
+  - vstest
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - develop
+    - feature/*
+    - release/*
+
+variables:
+  BuildPlatform: 'any cpu'
+  BuildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet 5.1.x'
+  inputs:
+    versionSpec: 5.1.x
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+
+- task: VSBuild@1
+  displayName: 'Build solution AutoFixtureSamples.sln'
+  inputs:
+    solution: AutoFixtureSamples.sln
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    clean: true
+    maximumCpuCount: true
+
+- task: VSTest@2
+  displayName: 'Execute Unittests'
+  inputs:
+    runOnlyImpactedTests: true
+    runInParallel: true
+    codeCoverageEnabled: true
+    testRunTitle: 'xUnit Tests'

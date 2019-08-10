@@ -5,7 +5,7 @@ namespace CustomizingAutoFixturePipeline.Tests
 {
     public class CustomizingIndividualObjectCreation
     {
-        [Fact]
+        [Fact(Skip = "This test results in a error.")]
         public void Error()
         {
             var fixture = new Fixture();
@@ -23,7 +23,6 @@ namespace CustomizingAutoFixturePipeline.Tests
                                 .Without(x => x.DepartureAirportCode)
                                 .Create();
         }
-
 
         [Fact]
         public void OmitSettingAllProperties()

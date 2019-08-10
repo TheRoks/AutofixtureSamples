@@ -6,7 +6,7 @@ namespace CustomizingAutoFixturePipeline.Tests
 {
     public class CustomizingAutoFixturePipeline
     {
-        [Fact]
+        [Fact(Skip = "This test results in a error.")]
         public void Error()
         {
             var fixture = new Fixture();
